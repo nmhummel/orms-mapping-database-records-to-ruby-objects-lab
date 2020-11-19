@@ -84,7 +84,21 @@ describe Student do
         expect(pat_from_db).to be_an_instance_of(Student)
       end
     end
+    describe '.all' do
+      it 'returns all student instances from the db' do
+        pat.name = "Pat"
+        pat.grade = 12
+        pat.save
+        sam.name = "Sam"
+        sam.grade = 10
+        sam.save
 
+        all_from_db = Student.all
+        expect(all_from_db.size).to eq(2)
+        expect(all_from_db.last).to be_an_instance_of(Student)
+        expect(all_from_db.any? {|student| student.name == "Sam"}).to eq(true)
+      end
+    end
     describe '.all_students_in_grade_9' do
       it 'returns an array of all students in grades 9' do
         pat.name = "Pat"
@@ -114,21 +128,7 @@ describe Student do
       end
     end
 
-    describe '.all' do
-      it 'returns all student instances from the db' do
-        pat.name = "Pat"
-        pat.grade = 12
-        pat.save
-        sam.name = "Sam"
-        sam.grade = 10
-        sam.save
 
-        all_from_db = Student.all
-        expect(all_from_db.size).to eq(2)
-        expect(all_from_db.last).to be_an_instance_of(Student)
-        expect(all_from_db.any? {|student| student.name == "Sam"}).to eq(true)
-      end
-    end
 
     describe '.first_X_students_in_grade_10' do
       it 'returns an array of the first X students in grade 10' do
